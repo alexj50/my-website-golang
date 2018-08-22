@@ -1,0 +1,26 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - |
+        SRC_HASH=$CODEBUILD_SOURCE_VERSION
+        case $SRC_HASH in arn*)
+          SRC_HASH=$CODEBUILD_RESOLVED_SOURCE_VERSION
+        esac
+      - IMAGE_URI="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$SRC_HASH"
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t $SRC_HASH .
+      - docker tag $SRC_HASH $IMAGE_URI
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $IMAGE_URI
+      - printf '[{"name":"website","imageUri":"%s"}]' $IMAGE_URI > imagedefinitions.json
+artifacts:
+    files: imagedefinitions.json
