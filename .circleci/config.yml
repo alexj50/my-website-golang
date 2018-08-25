@@ -4,16 +4,18 @@ jobs:
     working_directory: /go/src/github.com/alexj50/my-website-golang
     docker:
       - image: circleci/golang:1.10-stretch
+      environment:
+        GOOS: linux
+        GOARCH: amd64
     steps:
       - setup_remote_docker
       - checkout
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - run:
-          name: Build amd64/linux
-          environment:
-            GOOS: linux
-            GOARCH: amd64
-          command: |
-             docker build -t alexj50/my-website-golang:$CIRCLE_BRANCH .
-             
-     - run: docker push alexj50/my-website-golang:$CIRCLE_BRANCH
+      - run: docker build -t alexj50/my-website-golang:$CIRCLE_BRANCH .
+      - run: docker push alexj50/my-website-golang:$CIRCLE_BRANCH
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
