@@ -15,6 +15,5 @@ jobs:
             GOARCH: amd64
           command: |
              docker build -t alexj50/my-website-golang:$CIRCLE_BRANCH .
-
-     # deploy the image
+             
      - run: docker push alexj50/my-website-golang:$CIRCLE_BRANCH
