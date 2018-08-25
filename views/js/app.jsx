@@ -13,7 +13,7 @@ class Home extends React.Component {
     return (
       <div className="container">
         <div className="col-xs-8 col-xs-offset-2 text-center">
-          <h1> Hey There! </h1>
+          <h1> Hey There! :) </h1>
         </div>
       </div>
     )
