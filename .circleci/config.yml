@@ -1,10 +1,6 @@
 version: 2
 jobs:
   build:
-    environment:
-      GOOS: linux
-      GOARCH: amd64
-      
     working_directory: /go/src/github.com/alexj50/my-website-golang
 
     docker:
