@@ -7,7 +7,7 @@ WORKDIR $GOPATH/src/github.com/alexj50/my-website-golang
 COPY Gopkg.toml Gopkg.lock ./
 RUN dep ensure --vendor-only
 COPY . ./
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix nocgo -o /app .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -installsuffix nocgo -o /app .
 FROM scratch
 COPY --from=builder /app ./
 COPY ./views ./views
