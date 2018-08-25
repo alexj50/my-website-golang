@@ -11,5 +11,5 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -installsuffix nocgo -o /a
 FROM scratch
 COPY --from=builder /app ./
 COPY ./views ./views
-
+EXPOSE 8080
 ENTRYPOINT ["./app"]
